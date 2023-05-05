@@ -1,41 +1,30 @@
 const express = require("express");
-const cors = require('cors');
+const cors = require("cors");
 const app = express();
+const mongoose = require("mongoose");
+var bodyParser = require("body-parser");
+const morgan = require("morgan");
+const helmet = require("helmet");
+const dotenv = require("dotenv");
+const customersRoute = require("./routes/customers");
 
-const MongoClient = require("mongodb").MongoClient;
-const url =
-  "mongodb+srv://duykhanh:gBi90vFntGfXujZi@cphonex.ohu3h1s.mongodb.net/?retryWrites=true&w=majority";
-const dbName = "cphonex";
+dotenv.config();
 
+mongoose.connect(
+  process.env.URL_LDK,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  () => {
+    console.log("Connected to MongoDB");
+  }
+);
+
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(helmet());
 app.use(cors());
+app.use(morgan("common"));
 
-app.get("/", (req, res) => {
-  let result = "...";
-  MongoClient.connect(url).then(async (e) => {
-    const db = e.db(dbName);
-    db.collection("customer")
-      .find({})
-      .toArray((err, docs) => {
-        if (docs !== undefined) {
-          result = docs;
-        }
-      });
-  });
-  res.send(result);
-});
-
-app.post("/create/user", (req, res) => {
-  MongoClient.connect(url, { useUnifiedTopology: true }).then(async (e) => {
-    const db = e.db(dbName);
-    await db.collection("customer").insertOne({
-      username: "admin2",
-      password: "admin2",
-    });
-    e.close();
-  });
-  res.send("created new user");
-});
+app.use("/v1", customersRoute);
 
 app.listen(3000, () => {
-  console.log("Server listening on port 3000");
+  console.log("Server is running...");
 });
