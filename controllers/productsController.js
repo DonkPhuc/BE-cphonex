@@ -4,7 +4,6 @@ const productsController = {
   addProduct: async (req, res) => {
     try {
       const newProduct = new Products(req.body);
-      console.log(req.body);
       const savedNewProduct = await newProduct.save();
       res.status(200).json(savedNewProduct);
     } catch (err) {

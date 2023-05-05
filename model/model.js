@@ -24,26 +24,21 @@ const customersSchema = new mongoose.Schema({
 });
 
 const productsSchema = new mongoose.Schema({
-  products: [
-    {
-      imageLink: { type: String },
-      name: { type: String },
-      priceRRP: { type: Number },
-      description: { type: String },
-      rated: { type: Number },
-      favorite: { type: Boolean },
-      quality: { type: Number },
-      discount: { type: Number },
-      imageDetail: [
-        { type: String },
-        { type: String },
-        { type: String },
-        { type: String },
-        { type: String },
-      ],
-    },
-
-    ,
+  imageLink: { type: String },
+  name: { type: String },
+  priceRRP: { type: Number },
+  description: { type: String },
+  rated: { type: Number },
+  favorite: { type: Boolean },
+  quality: { type: Number },
+  discount: { type: Number },
+  type: { type: String },
+  imageDetail: [
+    { type: String },
+    { type: String },
+    { type: String },
+    { type: String },
+    { type: String },
   ],
 });
 
