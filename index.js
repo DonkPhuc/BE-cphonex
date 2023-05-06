@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const dotenv = require("dotenv");
 const customersRoute = require("./routes/customers");
+const productsRoute = require("./routes/products");
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(cors());
 app.use(morgan("common"));
 
 app.use("/v1", customersRoute);
+app.use("/v1", productsRoute);
 
 app.listen(3000, () => {
   console.log("Server is running...");

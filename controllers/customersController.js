@@ -38,10 +38,15 @@ const customersController = {
 
   updateCustomer: async (req, res) => {
     try {
-      const customers = await Customers.find({ username: req.params.username });
-      console.log(customers[0].password);
-      await customers.updateOne({ $set: req.body });
-      res.status(200).json("Updated successfully!", customers);
+      // const customers = await Customers.find({ username: req.params.username });
+      const customers = await Customers.findOneAndUpdate(
+        { username: req.params.username },
+        { $set: { password: req.body.password } }
+      );
+      console.log(customers);
+      if (customers !== null) {
+        customers && res.status(200).json("Updated successfully!");
+      } else res.json("doesn't exists this account");
     } catch (err) {
       res.status(500).json(err);
     }
