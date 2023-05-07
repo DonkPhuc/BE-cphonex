@@ -9,6 +9,7 @@ const dotenv = require("dotenv");
 
 const customersRoute = require("./routes/customers");
 const productsRoute = require("./routes/products");
+const ServerlessHttp = require("serverless-http");
 
 dotenv.config();
 
@@ -26,9 +27,11 @@ app.use(helmet());
 app.use(cors());
 app.use(morgan("common"));
 
-app.use("/v1", customersRoute);
-app.use("/v1", productsRoute);
+app.use("/v1/api", customersRoute);
+app.use("/v1/api", productsRoute);
 
-app.listen(3000, () => {
-  console.log("Server is running...");
-});
+// app.listen(3000, () => {
+//   console.log("Server is running...");
+// });
+
+module.exports.handler = ServerlessHttp(app)
