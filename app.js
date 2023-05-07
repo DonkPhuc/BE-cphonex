@@ -30,8 +30,8 @@ app.use(morgan("common"));
 app.use("/v1/api", customersRoute);
 app.use("/v1/api", productsRoute);
 
-// app.listen(3000, () => {
-//   console.log("Server is running...");
-// });
+app.listen(3000, () => {
+  console.log("Server is running...");
+});
 
 module.exports.handler = ServerlessHttp(app)
