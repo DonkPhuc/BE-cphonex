@@ -11,6 +11,8 @@ const customersRoute = require("./routes/customers");
 const productsRoute = require("./routes/products");
 const ServerlessHttp = require("serverless-http");
 
+const port = 9999;
+
 dotenv.config();
 
 mongoose.set("strictQuery", false);
@@ -30,8 +32,8 @@ app.use(morgan("common"));
 app.use("/v1/api", customersRoute);
 app.use("/v1/api", productsRoute);
 
-app.listen(9999, () => {
-  console.log("Server is running...");
+app.listen(port, () => {
+  console.log(`Server is running in ${port}`);
 });
 
 module.exports.handler = ServerlessHttp(app)
