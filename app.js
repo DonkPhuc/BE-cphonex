@@ -30,7 +30,7 @@ app.use(morgan("common"));
 app.use("/v1/api", customersRoute);
 app.use("/v1/api", productsRoute);
 
-app.listen(3000, () => {
+app.listen(9999, () => {
   console.log("Server is running...");
 });
 
