@@ -20,14 +20,14 @@ const productsController = {
     }
   },
 
-  //   getCustomer: async (req, res) => {
-  //     try {
-  //       const customers = await Customers.find({ username: req.params.username });
-  //       res.status(200).json(customers);
-  //     } catch (err) {
-  //       res.status(500).json(err);
-  //     }
-  //   },
+  getProduct: async (req, res) => {
+    try {
+      const product = await Products.findById(req.params.id);
+      res.status(200).json(product);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
 
   //   updateCustomer: async (req, res) => {
   //     try {
