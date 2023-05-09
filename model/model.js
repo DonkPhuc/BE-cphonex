@@ -3,20 +3,21 @@ const mongoose = require("mongoose");
 const customersSchema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
-  cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
-  favorite: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
+  cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Cart" }],
+  favorite: [{ type: mongoose.Schema.Types.ObjectId, ref: "Favorite" }],
 });
 
 const productsSchema = new mongoose.Schema({
+  _id: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
   imageLink: { type: String, required: true },
   name: { type: String, required: true },
   priceRRP: { type: Number, required: true },
-  description: { type: String, required: true },
-  rated: { type: Number, required: true },
-  favorite: { type: Boolean, required: true },
   quality: { type: Number, required: true },
-  discount: { type: Number, required: true },
   type: { type: String, required: true },
+  discount: { type: Number },
+  description: { type: String },
+  favorite: { type: Boolean },
+  rated: { type: Number },
   imageDetail: [
     { type: String },
     { type: String },
@@ -26,7 +27,7 @@ const productsSchema = new mongoose.Schema({
   ],
 });
 
-let Customers = mongoose.model("customer", customersSchema);
-let Products = mongoose.model("product", productsSchema);
+let Customers = mongoose.model("Customer", customersSchema);
+let Products = mongoose.model("Product", productsSchema);
 
 module.exports = { Customers, Products };

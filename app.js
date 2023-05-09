@@ -2,16 +2,16 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const mongoose = require("mongoose");
-var bodyParser = require("body-parser");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const dotenv = require("dotenv");
+const bodyParser = require("body-parser");
 
 const customersRoute = require("./routes/customers");
 const productsRoute = require("./routes/products");
-const ServerlessHttp = require("serverless-http");
 
 const port = 9999;
+const portUrl = "https://cphonex-be.onrender.com";
 
 dotenv.config();
 
@@ -33,7 +33,5 @@ app.use("/v1/api", customersRoute);
 app.use("/v1/api", productsRoute);
 
 app.listen(port, () => {
-  console.log(`Server is running in ${port}`);
+  console.log(`Server is running in ${portUrl}`);
 });
-
-module.exports.handler = ServerlessHttp(app)
