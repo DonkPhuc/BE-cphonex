@@ -15,11 +15,20 @@ const productsController = {
     try {
       const customer = await Customers.find({ username: req.params.username });
       const cart = customer[0].cart;
+      const productExist = cart.find(
+        (product) => product._id.toString() === req.body._id.toString()
+      );
 
-      cart.push(req.body._id);
-      await customer[0].save();
-
-      res.json(cart);
+      if (!productExist) {
+        cart.push(req.body._id);
+        await customer[0].save();
+        res.status(200).json("successfully");
+      } else {
+        productExist.quantity++;
+        await customer[0].save();
+        console.log(productExist.quantity);
+        res.json("product existed");
+      }
     } catch (err) {
       res.status(500).json(err);
     }
@@ -29,11 +38,19 @@ const productsController = {
     try {
       const customer = await Customers.find({ username: req.params.username });
       const cart = customer[0].cart;
+      const productExist = cart.find(
+        (product) => product._id.toString() === req.params.id.toString()
+      );
 
-      // await cart.findByIdAndDelete(req.params.id);
-      // await customer[0].save();
-
-      res.json("delete successfully");
+      if (productExist) {
+        console.log(req.params.id);
+        console.log(productExist);
+        await productExist.remove();
+        await customer[0].save();
+        res.status(200).json("successfully");
+      } else {
+        res.json("not exist");
+      }
     } catch (err) {
       res.status(500).json(err);
     }

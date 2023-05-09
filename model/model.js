@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 
+const cartItemSchema = new mongoose.Schema({
+  productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+  quantity: { type: Number, default: 1 },
+});
+
 const customersSchema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
-  cart: [
-    {
-      productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
-    },
-  ],
+  cart: [cartItemSchema],
   favorite: [],
 });
 
@@ -15,8 +16,8 @@ const productsSchema = new mongoose.Schema({
   imageLink: { type: String, required: true },
   name: { type: String, required: true },
   priceRRP: { type: Number, required: true },
-  quality: { type: Number, required: true },
   type: { type: String, required: true },
+  quality: { type: Number },
   discount: { type: Number },
   description: { type: String },
   favorite: { type: Boolean },
