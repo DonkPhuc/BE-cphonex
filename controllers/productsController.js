@@ -1,9 +1,9 @@
-const { Products, Customers } = require("../model/model");
+const { Product, Customer } = require("../model/model");
 
 const productsController = {
   addProduct: async (req, res) => {
     try {
-      const newProduct = new Products(req.body);
+      const newProduct = new Product(req.body);
       const savedNewProduct = await newProduct.save();
       res.status(200).json(savedNewProduct);
     } catch (err) {
@@ -13,7 +13,7 @@ const productsController = {
 
   addProductToCart: async (req, res) => {
     try {
-      const customer = await Customers.find({ username: req.params.username });
+      const customer = await Customer.find({ username: req.params.username });
       const cart = customer[0].cart;
       const productExist = cart.find(
         (product) => product._id.toString() === req.body._id.toString()
@@ -36,7 +36,7 @@ const productsController = {
 
   deleteProductOnCart: async (req, res) => {
     try {
-      const customer = await Customers.find({ username: req.params.username });
+      const customer = await Customer.find({ username: req.params.username });
       const cart = customer[0].cart;
       const productExist = cart.find(
         (product) => product._id.toString() === req.params.id.toString()
@@ -58,7 +58,7 @@ const productsController = {
 
   getAllProducts: async (req, res) => {
     try {
-      const products = await Products.find();
+      const products = await Product.find();
       res.status(200).json(products);
     } catch (err) {
       res.status(500).json(err);
@@ -67,7 +67,7 @@ const productsController = {
 
   getProduct: async (req, res) => {
     try {
-      const product = await Products.findById(req.params.id);
+      const product = await Product.findById(req.params.id);
       res.status(200).json(product);
     } catch (err) {
       res.status(500).json(err);
@@ -76,7 +76,7 @@ const productsController = {
 
   updateProduct: async (req, res) => {
     try {
-      const product = await Products.findOneAndUpdate(
+      const product = await Product.findOneAndUpdate(
         { _id: req.params.id },
         { $set: req.body }
       );
@@ -90,7 +90,7 @@ const productsController = {
 
   deleteProduct: async (req, res) => {
     try {
-      await Products.findByIdAndDelete(req.params.id);
+      await Product.findByIdAndDelete(req.params.id);
       res.status(200).json("Deleted successfully!");
     } catch (err) {
       res.status(500).json(err);
