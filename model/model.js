@@ -3,12 +3,15 @@ const mongoose = require("mongoose");
 const customersSchema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
-  cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Cart" }],
-  favorite: [{ type: mongoose.Schema.Types.ObjectId, ref: "Favorite" }],
+  cart: [
+    {
+      productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+    },
+  ],
+  favorite: [],
 });
 
 const productsSchema = new mongoose.Schema({
-  _id: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
   imageLink: { type: String, required: true },
   name: { type: String, required: true },
   priceRRP: { type: Number, required: true },

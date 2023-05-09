@@ -13,13 +13,27 @@ const productsController = {
 
   addProductToCart: async (req, res) => {
     try {
-      const product = await Products.findById(req.params.id);
       const customer = await Customers.find({ username: req.params.username });
-      const newProduct = new Products(product);
-      const savedNewProduct = await newProduct.save();
-      console.log(savedNewProduct);
-      // await customer.updateOne({ $push: { cart: savedNewProduct._id } });
-      res.status(200).json("product");
+      const cart = customer[0].cart;
+
+      cart.push(req.body._id);
+      await customer[0].save();
+
+      res.json(cart);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  deleteProductOnCart: async (req, res) => {
+    try {
+      const customer = await Customers.find({ username: req.params.username });
+      const cart = customer[0].cart;
+
+      // await cart.findByIdAndDelete(req.params.id);
+      // await customer[0].save();
+
+      res.json("delete successfully");
     } catch (err) {
       res.status(500).json(err);
     }
@@ -45,10 +59,13 @@ const productsController = {
 
   updateProduct: async (req, res) => {
     try {
-      const product = await Products.find({ _id: req.params.id });
-      console.log(product);
-      // await product.updateOne({ $set: req.body });
-      res.status(200).json("Updated successfully!");
+      const product = await Products.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: req.body }
+      );
+      if (product !== null) {
+        product && res.status(200).json("Updated successfully!");
+      } else res.json("doesn't exists this prod");
     } catch (err) {
       res.status(500).json(err);
     }
@@ -56,7 +73,6 @@ const productsController = {
 
   deleteProduct: async (req, res) => {
     try {
-      await Customers.updateMany({ cart: req.params.id }, { cart: null });
       await Products.findByIdAndDelete(req.params.id);
       res.status(200).json("Deleted successfully!");
     } catch (err) {

@@ -38,12 +38,10 @@ const customersController = {
 
   updateCustomer: async (req, res) => {
     try {
-      // const customers = await Customers.find({ username: req.params.username });
       const customers = await Customers.findOneAndUpdate(
         { username: req.params.username },
         { $set: { password: req.body.password } }
       );
-      console.log(customers);
       if (customers !== null) {
         customers && res.status(200).json("Updated successfully!");
       } else res.json("doesn't exists this account");
@@ -54,7 +52,6 @@ const customersController = {
 
   deleteCustomer: async (req, res) => {
     try {
-      // await Book.updateMany({ author: req.params.id }, { author: null });
       await Customers.findByIdAndDelete(req.params.id);
       res.status(200).json("Deleted successfully!");
     } catch (err) {
