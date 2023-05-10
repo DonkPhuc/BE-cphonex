@@ -31,7 +31,7 @@ const customersController = {
     try {
       const customers = await Customer.find({
         username: req.params.username,
-      }).populate("cart.product");
+      }).populate("cart");
 
       res.status(200).json(customers);
     } catch (err) {

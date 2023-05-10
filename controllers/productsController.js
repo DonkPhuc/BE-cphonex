@@ -13,20 +13,19 @@ const productsController = {
 
   addProductToCart: async (req, res) => {
     try {
-      const customer = await Customer.find({ username: req.params.username });
+      const customer = await Customer.find({
+        username: req.params.username,
+      }).populate("cart");
       const cart = customer[0].cart;
       const productExist = cart.find(
         (product) => product._id.toString() === req.body._id.toString()
       );
 
-      if (!productExist) {
+      if (productExist === undefined || !productExist) {
         cart.push(req.body._id);
         await customer[0].save();
         res.status(200).json("successfully");
       } else {
-        productExist.quantity++;
-        await customer[0].save();
-        console.log(productExist.quantity);
         res.json("product existed");
       }
     } catch (err) {
@@ -38,14 +37,54 @@ const productsController = {
     try {
       const customer = await Customer.find({ username: req.params.username });
       const cart = customer[0].cart;
-      const productExist = cart.find(
+      const productExist = cart.findIndex(
         (product) => product._id.toString() === req.params.id.toString()
       );
 
-      if (productExist) {
-        console.log(req.params.id);
-        console.log(productExist);
-        await productExist.remove();
+      if (productExist > -1) {
+        cart.splice(0, 1);
+        await customer[0].save();
+        res.status(200).json("successfully");
+      } else {
+        res.json("not exist");
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  addProductToFavorite: async (req, res) => {
+    try {
+      const customer = await Customer.find({
+        username: req.params.username,
+      });
+      const favorite = customer[0].favorite;
+      const productExist = favorite.find(
+        (product) => product._id.toString() === req.body._id.toString()
+      );
+
+      if (productExist === undefined || !productExist) {
+        favorite.push(req.body._id);
+        await customer[0].save();
+        res.status(200).json("successfully");
+      } else {
+        res.json("product existed");
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  deleteProductOnFavorite: async (req, res) => {
+    try {
+      const customer = await Customer.find({ username: req.params.username });
+      const favorite = customer[0].favorite;
+      const productExist = favorite.findIndex(
+        (product) => product._id.toString() === req.params.id.toString()
+      );
+
+      if (productExist > -1) {
+        favorite.splice(0, 1);
         await customer[0].save();
         res.status(200).json("successfully");
       } else {
