@@ -12,12 +12,14 @@ router.post(
   "/product/favorite/:username",
   productsController.addProductToFavorite
 );
+router.post("/product/rate/:id", productsController.addRateToProduct);
 
 router.delete("/product/delete/:id", productsController.deleteProduct);
 router.delete(
   "/product/cart/delete/:username/:id",
   productsController.deleteProductOnCart
 );
+
 router.delete(
   "/product/favorite/delete/:username/:id",
   productsController.deleteProductOnFavorite

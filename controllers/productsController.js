@@ -1,4 +1,4 @@
-const { Product, Customer } = require("../model/model");
+const { Product, Customer, Rate } = require("../model/model");
 
 const productsController = {
   addProduct: async (req, res) => {
@@ -106,7 +106,7 @@ const productsController = {
 
   getProduct: async (req, res) => {
     try {
-      const product = await Product.findById(req.params.id);
+      const product = await Product.findById(req.params.id).populate("rate");
       res.status(200).json(product);
     } catch (err) {
       res.status(500).json(err);
@@ -131,6 +131,20 @@ const productsController = {
     try {
       await Product.findByIdAndDelete(req.params.id);
       res.status(200).json("Deleted successfully!");
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
+  addRateToProduct: async (req, res) => {
+    try {
+      const newRate = new Rate(req.body);
+      const product = await Product.findById(req.params.id);
+      const rate = product.rate;
+      rate.push(newRate._id);
+      newRate.save();
+      product.save();
+      res.status(200).json(product.rate);
     } catch (err) {
       res.status(500).json(err);
     }

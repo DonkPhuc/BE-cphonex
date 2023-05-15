@@ -9,6 +9,8 @@ const bodyParser = require("body-parser");
 
 const customersRoute = require("./routes/customers");
 const productsRoute = require("./routes/products");
+const ratesRoute = require("./routes/rates");
+const ordersRoute = require("./routes/orders");
 
 const port = 9999;
 const portUrl = "https://cphonex-be.onrender.com";
@@ -31,6 +33,8 @@ app.use(morgan("common"));
 
 app.use("/v1/api", customersRoute);
 app.use("/v1/api", productsRoute);
+app.use("/v1/api", ratesRoute);
+app.use("/v1/api", ordersRoute);
 
 app.listen(port, () => {
   console.log(`Server is running in ${portUrl}`);
