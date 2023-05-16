@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const rateSchema = new mongoose.Schema({
   username: { type: String, required: true },
-  description: { type: String, required: true },
+  description: { type: String },
   timestamp: { type: Date, default: Date.now },
   value: { type: Number, default: 5 },
 });
