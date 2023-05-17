@@ -30,6 +30,7 @@ const customersSchema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
   phoneNo: { type: Number },
+  create: { type: Date, default: Date.now },
   email: { type: Number },
   role: { type: String, default: "customer" },
   cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
