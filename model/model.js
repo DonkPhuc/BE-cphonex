@@ -13,6 +13,7 @@ const productsSchema = new mongoose.Schema({
   name: { type: String, required: true },
   type: { type: String, required: true },
   quantity: { type: Number, default: 1 },
+  create: { type: Date, default: Date.now },
   discount: { type: Number },
   description: { type: String },
   imageDetail: [
@@ -29,9 +30,9 @@ const productsSchema = new mongoose.Schema({
 const customersSchema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
-  phoneNo: { type: Number },
+  userFullName: { type: String, required: true },
+  email: { type: String, required: true },
   create: { type: Date, default: Date.now },
-  email: { type: Number },
   role: { type: String, default: "customer" },
   cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
   favorite: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],

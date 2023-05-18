@@ -45,7 +45,14 @@ const customersController = {
     try {
       const customers = await Customer.findOneAndUpdate(
         { username: req.params.username },
-        { $set: { password: req.body.password } }
+        {
+          $set: {
+            userFullName: req.body.userFullName,
+            password: req.body.password,
+            email: req.body.email,
+            role: req.body.role,
+          },
+        }
       );
       if (customers !== null) {
         customers && res.status(200).json("Updated successfully!");
