@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const rateSchema = new mongoose.Schema({
+  phoneNo: { type: String },
   username: { type: String, required: true },
   description: { type: String },
   timestamp: { type: Date, default: Date.now },
@@ -8,6 +9,7 @@ const rateSchema = new mongoose.Schema({
 });
 
 const productsSchema = new mongoose.Schema({
+  create: { type: Date, default: Date.now },
   imageLink: { type: String, required: true },
   priceRRP: { type: Number, required: true },
   name: { type: String, required: true },
@@ -33,6 +35,7 @@ const customersSchema = new mongoose.Schema({
   userFullName: { type: String, required: true },
   email: { type: String, required: true },
   create: { type: Date, default: Date.now },
+  phoneNo: { type: String },
   role: { type: String, default: "customer" },
   cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
   favorite: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
