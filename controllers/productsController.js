@@ -113,6 +113,16 @@ const productsController = {
     }
   },
 
+  getSearchProduct: async (req, res) => {
+    try {
+      const regex = new RegExp(req.params.name, "i");
+      const result = await Product.find({ name: regex });
+      res.status(200).json(result);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
   updateProduct: async (req, res) => {
     try {
       const product = await Product.findOneAndUpdate(
