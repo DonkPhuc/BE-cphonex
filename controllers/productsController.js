@@ -15,17 +15,21 @@ const productsController = {
     try {
       const customer = await Customer.find({
         username: req.params.username,
-      }).populate("cart");
+      });
       const cart = customer[0].cart;
       const productExist = cart.find(
         (product) => product._id.toString() === req.body._id.toString()
       );
 
       if (productExist === undefined || !productExist) {
-        cart.push(req.body._id);
+        cart.push({ _id: req.body._id, quantity: 1 });
         await customer[0].save();
         res.status(200).json("successfully");
       } else {
+        const index = cart.findIndex((e) => e._id.toString() === req.body._id);
+        cart[index].quantity++;
+        await customer[0].save();
+        console.log(cart[index].quantity);
         res.json("product existed");
       }
     } catch (err) {
