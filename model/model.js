@@ -46,18 +46,20 @@ const customersSchema = new mongoose.Schema({
   phoneNo: { type: String },
   role: { type: String, default: "customer" },
   cart: [cartSchema],
+  orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "OrderNo" }],
   favorite: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
 });
 
 const orderNoSchema = new mongoose.Schema({
   orderNumber: { type: String, required: true, unique: true },
+  orderTotal: { type: Number, required: true },
+  customerUsername: { type: String },
   orderDelivery: { type: String },
   customerName: { type: String },
   orderAddress: { type: String },
-  orderTotal: { type: Number },
   orderDate: { type: Date, default: Date.now },
   status: { type: String },
-  items: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+  items: [cartSchema],
 });
 
 let Customer = mongoose.model("Customer", customersSchema);

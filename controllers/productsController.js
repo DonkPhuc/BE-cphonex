@@ -35,6 +35,30 @@ const productsController = {
     }
   },
 
+  updateProductOnCart: async (req, res) => {
+    try {
+      const customer = await Customer.find({
+        username: req.params.username,
+      });
+      const cart = customer[0].cart;
+      const productExist = cart.find(
+        (product) => product._id.toString() === req.body._id.toString()
+      );
+
+      if (productExist === undefined || !productExist) {
+        cart.push(req.body);
+        await customer[0].save();
+        res.status(200).json("successfully");
+      } else {
+        productExist.quantity++;
+        await customer[0].save();
+        res.json("product existed");
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
   deleteProductOnCart: async (req, res) => {
     try {
       const customer = await Customer.find({ username: req.params.username });
@@ -86,7 +110,7 @@ const productsController = {
       );
 
       if (productExist > -1) {
-        favorite.splice(0, 1);
+        favorite.splice(0, productExist + 1);
         await customer[0].save();
         res.status(200).json("successfully");
       } else {

@@ -31,7 +31,7 @@ const customersController = {
     try {
       const customers = await Customer.findOne({
         username: req.params.username,
-      }).populate("favorite");
+      }).populate("favorite").populate('orders');
 
       res.status(200).json(customers);
     } catch (err) {

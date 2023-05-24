@@ -3,9 +3,16 @@ const { Product, Customer, OrderNo } = require("../model/model");
 const ordersController = {
   addOrder: async (req, res) => {
     try {
+      const customer = await Customer.find({
+        username: req.body.customerUserName,
+      });
       const newOrder = new OrderNo(req.body);
       const savedNewOrder = await newOrder.save();
-      res.status(200).json(savedNewOrder);
+      if (savedNewOrder) {
+        customer[0].orders.push(newOrder._id);
+        customer[0].save();
+      }
+      res.status(200).json('successfully');
     } catch (err) {
       res.status(500).json(err);
     }
