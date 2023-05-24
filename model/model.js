@@ -14,7 +14,6 @@ const productsSchema = new mongoose.Schema({
   priceRRP: { type: Number, required: true },
   name: { type: String, required: true },
   type: { type: String, required: true },
-  quantity: { type: Number, default: 1 },
   create: { type: Date, default: Date.now },
   discount: { type: Number },
   description: { type: String },
@@ -29,6 +28,15 @@ const productsSchema = new mongoose.Schema({
   rate: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rate" }],
 });
 
+const cartSchema = new mongoose.Schema({
+  item: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+  imageLink: { type: String },
+  name: { type: String },
+  priceRRP: { type: Number },
+  discount: { type: Number },
+  quantity: { type: Number, default: 1 },
+});
+
 const customersSchema = new mongoose.Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
@@ -37,7 +45,7 @@ const customersSchema = new mongoose.Schema({
   create: { type: Date, default: Date.now },
   phoneNo: { type: String },
   role: { type: String, default: "customer" },
-  cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+  cart: [cartSchema],
   favorite: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
 });
 

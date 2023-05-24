@@ -29,11 +29,9 @@ const customersController = {
 
   getCustomer: async (req, res) => {
     try {
-      const customers = await Customer.find({
+      const customers = await Customer.findOne({
         username: req.params.username,
-      })
-        .populate("cart")
-        .populate("favorite");
+      }).populate("favorite");
 
       res.status(200).json(customers);
     } catch (err) {
