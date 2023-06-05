@@ -10,6 +10,10 @@ router.post("/product/add", productsController.addProduct);
 router.post("/product/update/:id", productsController.updateProduct);
 router.post("/product/cart/:username", productsController.addProductToCart);
 router.post(
+  "/product/update/quantity/:username",
+  productsController.updateProductOnCart
+);
+router.post(
   "/product/favorite/:username",
   productsController.addProductToFavorite
 );

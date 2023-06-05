@@ -41,19 +41,22 @@ const productsController = {
         username: req.params.username,
       });
       const cart = customer[0].cart;
-      const productExist = cart.find(
-        (product) => product._id.toString() === req.body._id.toString()
-      );
 
-      if (productExist === undefined || !productExist) {
-        cart.push(req.body);
-        await customer[0].save();
-        res.status(200).json("successfully");
-      } else {
-        productExist.quantity++;
-        await customer[0].save();
-        res.json("product existed");
+      const body = req.body;
+      console.log("🚀 ~ file: productsController.js:46 ~ body:", body);
+
+      for (let i = 0; i < body.length; i++) {
+        const cartItemId = body[i].id;
+        const newQuantity = body[i].quantity;
+        const productIndex = cart.findIndex(
+          (e) => e._id.toString() === cartItemId.toString()
+        );
+        if (productIndex !== -1) {
+          cart[productIndex].quantity = newQuantity;
+          await customer[0].save();
+        }
       }
+      res.json("successfully");
     } catch (err) {
       res.status(500).json(err);
     }
