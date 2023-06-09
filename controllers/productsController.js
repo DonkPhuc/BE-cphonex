@@ -43,7 +43,6 @@ const productsController = {
       const cart = customer[0].cart;
 
       const body = req.body;
-      console.log("🚀 ~ file: productsController.js:46 ~ body:", body);
 
       for (let i = 0; i < body.length; i++) {
         const cartItemId = body[i].id;
