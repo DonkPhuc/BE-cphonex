@@ -44,9 +44,9 @@ const productsController = {
 
       const body = req.body;
 
-      for (let i = 0; i < body.length; i++) {
-        const cartItemId = body[i].id;
-        const newQuantity = body[i].quantity;
+      for (const element of body) {
+        const cartItemId = element.id;
+        const newQuantity = element.quantity;
         const productIndex = cart.findIndex(
           (e) => e._id.toString() === cartItemId.toString()
         );
@@ -112,7 +112,7 @@ const productsController = {
       );
 
       if (productExist > -1) {
-        favorite.splice(0, productExist + 1);
+        favorite.splice(productExist, productExist + 1);
         await customer[0].save();
         res.status(200).json("successfully");
       } else {

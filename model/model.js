@@ -14,7 +14,6 @@ const productsSchema = new mongoose.Schema({
   name: { type: String, required: true },
   type: { type: String, required: true },
   create: { type: Date, default: Date.now },
-  create: { type: Date, default: Date.now },
   stock: { type: Number, default: 100 },
   description: { type: String },
   discount: { type: Number },

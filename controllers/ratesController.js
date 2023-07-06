@@ -1,18 +1,6 @@
 const { Product, Customer, Rate } = require("../model/model");
 
 const ratesController = {
-  // addRate: async (req, res) => {
-  //   try {
-  //     const newRate = new Rate(req.body);
-  //     const x = newRate.rate.push(newRate);
-  //     console.log(newRate);
-  //     // const savedNewRate = await newRate.save();
-  //     res.status(200).json("savedNewRate");
-  //   } catch (err) {
-  //     res.status(500).json(err);
-  //   }
-  // },
-
   getAllRates: async (req, res) => {
     try {
       const rate = await Rate.find();
